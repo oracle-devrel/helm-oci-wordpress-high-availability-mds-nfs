@@ -1,0 +1,33 @@
+
+{{- if  .Values.autoDB.enabled  -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbjob
+spec:
+  template:
+    spec:
+      serviceAccountName: internal-kubectl
+      containers:
+      - name: dbjob
+        env:
+        - name: API_USER
+          valueFrom:
+            secretKeyRef: 
+              name:  {{ .Values.secretName }}
+              key: username
+        - name: MySQL_PASSWORD
+          valueFrom:
+            secretKeyRef: 
+              name: {{ .Values.secretName }}
+              key: password
+        - name: database
+          value: {{ .Values.DBName }}
+        - name: dbhost_secret
+          value: {{ .Values.name }}
+        image: {{ .Values.createDBJobImage }}
+        command: [ "sh", "-c", "./get_ip.sh" ]
+      restartPolicy: Never
+  backoffLimit: 4
+
+  {{- end }}

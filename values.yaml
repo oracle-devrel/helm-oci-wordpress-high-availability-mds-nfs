@@ -1,0 +1,75 @@
+# Default values for OCIMySQL.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# name of MySQL DB System resource. This is name that is used in the Kubernetes cluster.
+name: wordpress
+
+spec:
+  # Name assigned to the MySQL DB System in OCI. This is the name that appears in OCI console.
+  displayName: wordpress
+  # Description for the MySQL DB System. This is required.
+  description: wordpress
+  # OCID of the compartment to deploy the MySQL DB System resource. This must be a compartment that you have permissions to.
+  compartmentId: 
+  # OCID of the subnet to deploy the MySQL DB System resource. The subnet must alreday be created and you have permission on to this subnet. 
+  # Ideally you want the MySQL DB System in the same subnet as your OKE cluster
+  subnetId: 
+  # Size of the datasore in GBs
+  dataStorageSizeInGBs: 100
+  # Redudancy for the MySQL DB System
+  isHighlyAvailable: false
+  # Port the  MySQL DB System will listen on, default for MySQL is 3306
+  port: 3306
+  portX: 33060
+  # Shape for the MySQL DB System
+  # https://docs.oracle.com/en-us/iaas/mysql-database/doc/db-systems.html#GUID-E2A83218-9700-4A49-B55D-987867D81871
+  shapeName: MySQL.VM.Standard.E3.1.8GB
+  # The configuration ID is for the shape of the instance. The value in this file is for a MySQL.VM.Standard.E3.1.8GB
+  # https://docs.oracle.com/en-us/iaas/mysql-database/doc/db-systems.html#GUID-E2A83218-9700-4A49-B55D-987867D81871
+  configuration:
+    id: ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq
+  # Avaiability Domain to deploy the MySQL DB System
+  # oci iam availability-domain list
+  availabilityDomain: GrCh:US-ASHBURN-AD-1
+  # Not Required: The fault domain on which to deploy the Read/Write endpoint and is for the primary intanace. Not Required
+  faultDomain: 
+  # Not Required: The hostname for the primary endpoint of the DB System. Used for DNS.
+  hostnameLabel:
+  # Not Required: The specific MySQL version identifier.
+  mysqlVersion:
+  # Not Required: IP address assigned to the MySQL DB System resource. OCI will auto assign the IP if this is not set
+  IPAddr: 
+
+# Set autoDB to true, to automatically create a database on MySQL DB system when ready. Leave the field empty to disable autoDB.
+autoDB:
+  enabled: true
+DBName: wordpress
+
+
+# name of secret to hold username and password of MySQL DB System 
+secretName: mysqlsecret
+
+# Username and paasword for the MySQL DB System if autoDB.enabled is set to true. 
+database:
+  username: 
+# Password must satisfy OCI MySQL DB System requrements otherwise MySQL DB System creation will fail
+# Best practice is not to put password here but set it when installing the helm chart
+  password: 
+
+# replcas for wordpress deployment
+wordPressReplicas: 2
+
+# File Service Paramaters. Get these values from OCI FileSystem console page
+
+# mount target OCID of the FileSystem
+mountTargetID: 
+nfsServerIP: 
+nfsPath: 
+
+
+
+# Images 
+createDBJobImage: chiphwang/createdb:2.0
+wordpressImageName: wordpress:5.8-apache
+initContainerImage: chiphwang/init_db:1.8
