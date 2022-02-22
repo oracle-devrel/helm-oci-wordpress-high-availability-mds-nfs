@@ -25,11 +25,12 @@ This Helm chart relies on the OCI Service Operator for Kubernetes (OSOK) and it 
 
 **1. Clone or download the contents of this repo** 
      
-     git clone https://github.com/chiphwang1/helm-oci-mds-wordpress.git
+     git clone https://github.com/oracle-devrel/helm-oci-wordpress-high-availability-mds-nfs.git
 
 **2. Change to the directory that holds the Helm Chart** 
 
-      cd ./helm-oci-mds-wordpress
+      cd ./helm-oci-wordpress-high-availability-mds-nfs
+
 
 **3. Populate the values.yaml file with information to deploy the MDS resource**
 
