@@ -1,0 +1,33 @@
+
+NOTES: 
+
+It can take up to 20 minutes for the Wordpress application to be ready due to the MySQL Database Systems (MDS) can take up to 20 minutes to provision . 
+
+
+1. To check the status of the MySQL DB System run the following command
+
+kubectl -n {{ .Release.Namespace }} get mysqldbsystems -o wide
+
+2. To retreive the OCID of MySQL DB System run the following command
+
+kubectl -n {{ .Release.Namespace }} get mysqldbsystems {{ .Values.name}} -o jsonpath="{.items[0].status.status.ocid}"
+
+3. To retrive the username of the MySQL DB System run the following command
+
+kubectl -n  {{ .Release.Namespace }}  get secret {{ .Values.secretName}} -o  jsonpath="{.data.username}" | base64 --decode
+
+4. To retreive the password of the MySQL DB System run the following command
+
+ kubectl -n  {{ .Release.Namespace }}  get secret {{ .Values.secretName}} -o  jsonpath="{.data.password}" | base64 --decode
+
+5. For more information on deploying MySQL DB System with oci-service-operator
+
+https://github.com/oracle/oci-service-operator/blob/main/docs/mysql.md
+
+6. To retreive endpoint information for the MySQL DB System run the following command
+
+kubectl -n {{ .Release.Namespace }} get secret {{ .Values.name }} -o jsonpath='{.data.Endpoints}' | base64 --decode
+
+7. To retrieve the IP address to access the Wordpress application run the following command.
+
+kubectl -n {{ .Release.Namespace }} get svc 

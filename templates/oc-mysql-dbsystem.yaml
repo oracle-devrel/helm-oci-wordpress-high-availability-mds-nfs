@@ -1,0 +1,35 @@
+apiVersion: oci.oracle.com/v1beta1
+kind: MySqlDbSystem
+metadata:
+  name: {{ .Values.name }}
+spec:
+  {{- if  .Values.spec.IPAddr }}
+  ipAddress: {{ .Values.spec.IPAddr }}
+  {{- end }}
+  description: {{ .Values.spec.description }}
+  compartmentId: {{ .Values.spec.compartmentId | required  "CompartmentID is a required "}}
+  displayName: {{ .Values.spec.displayName  | required  "A displayname  is a required "}}
+  shapeName: {{ .Values.spec.shapeName | required  "A shapeName is a required "}}
+  subnetId: {{ .Values.spec.subnetId | required  "A shapeName is a required " }}
+  configuration:
+    id: {{ .Values.spec.configuration.id | required  "A configuration,id is a required " }}
+  availabilityDomain: {{ .Values.spec.availabilityDomain | required "A configuration,id is a required " }} 
+  {{- if  .Values.spec.faultDomain }}
+  faultDomain: {{ .Values.spec.faultDomain }} 
+  {{- end }}
+  {{- if  .Values.spec.hostnameLabel }}
+  hostnameLabel: 
+  {{- end }}
+  {{- if  .Values.spec.mysqlVersion }}
+  mysqlVersion:
+  {{- end }}
+  adminUsername:
+    secret:
+      secretName: {{ .Values.secretName }}
+  adminPassword:
+    secret:
+      secretName: {{ .Values.secretName }}
+  dataStorageSizeInGBs: {{ .Values.spec.dataStorageSizeInGBs | required "A configuratiodataStorageSize id required  " }}
+  isHighlyAvailable: {{ .Values.spec.isHighlyAvailable }}
+  port: {{ .Values.spec.port }}
+  portX: {{ .Values.spec.portX }}

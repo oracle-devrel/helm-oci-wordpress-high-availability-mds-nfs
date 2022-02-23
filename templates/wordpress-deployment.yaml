@@ -1,0 +1,59 @@
+
+
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: {{ .Values.wordPressReplicas }}
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  strategy:
+    type: Recreate    
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      serviceAccountName: internal-kubectl
+      initContainers:
+      - name: db-init
+        image: {{ .Values.initContainerImage }}
+        command: [ "sh", "-c", "./check_db.sh" ]
+        env:
+        - name: dbhost_secret
+          value: {{ .Values.name }}
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp/host
+      containers:
+      - image: {{ .Values.wordpressImageName}}
+        name: wordpress
+        command: [ "/bin/bash", "-c", "source /tmp/host/launch.sh && docker-entrypoint.sh apache2-foreground" ]
+        env:
+        - name: WORDPRESS_DB_PASSWORD
+          value: {{ .Values.database.password }} 
+        - name: WORDPRESS_DB_NAME
+          value: {{ .Values.DBName }} 
+        - name: WORDPRESS_DB_USER
+          value: {{ .Values.database.username }} 
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html
+        - name: tmp
+          mountPath: /tmp/host
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: oke-fsspvc
+      - name: tmp
+        emptyDir: {}

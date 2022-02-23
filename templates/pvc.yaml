@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: oke-fsspvc
+spec:
+ storageClassName: oci-fss
+ accessModes:
+ - ReadWriteMany
+ resources:
+  requests:
+    storage: 100Gi
+ volumeName: oke-fsspv
