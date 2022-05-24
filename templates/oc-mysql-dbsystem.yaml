@@ -33,3 +33,9 @@ spec:
   isHighlyAvailable: {{ .Values.spec.isHighlyAvailable }}
   port: {{ .Values.spec.port }}
   portX: {{ .Values.spec.portX }}
+  freeformTags:
+    name: "{{ .Values.tag}}-{{randAlphaNum 10 | lower }}" 
+    description: "ArchitectureCenterTagNamespace"
+    compartment_id: {{ .Values.spec.compartmentId }}
+
+
