@@ -67,9 +67,9 @@ mountTargetID:
 nfsServerIP: 
 nfsPath: 
 
-
-
 # Images 
 createDBJobImage: chiphwang/createdb:2.0
 wordpressImageName: wordpress:5.8-apache
 initContainerImage: chiphwang/init_db:1.8
+# Tags
+tag: "ArchitectureCenter\\\\deploy-oci-helm-wordpress-mds"
