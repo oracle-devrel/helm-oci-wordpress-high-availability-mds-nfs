@@ -91,7 +91,7 @@ wordpress-844ffbb9d7-md744   0/1     Init:0/1   0          2m10s
 To watch the logs use the following command. The logs will update every 5 seconds until the MDS is ready.
 
 ```sh
-$ kubectl -n wodpress logs -f dbjob-khr9n
+$ kubectl -n wordpress logs -f dbjob-khr9n
 
 --------------------------------
 Check for readiness of the MySQL instance by checking for creation of secret mysql
