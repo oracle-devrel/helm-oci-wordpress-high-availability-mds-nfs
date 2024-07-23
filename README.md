@@ -199,7 +199,7 @@ wordpress   LoadBalancer   10.96.12.177  129.158.42.147   80:30388/TCP    22m
 
 
 ## License
-Copyright (c) 2021 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
